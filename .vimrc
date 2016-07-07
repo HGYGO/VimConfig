@@ -31,6 +31,12 @@ Plugin 'bronson/vim-trailing-whitespace'
 Plugin 'rdnetto/YCM-Generator'
 "Plugin '907th/vim-auto-save'
 
+"colorscheme
+Plugin 'desert-warm-256'
+Plugin 'https://github.com/flazz/vim-colorschemes.git'
+
+"colorscheme 'desert-warm-256'
+
 call vundle#end()            " 必须
 filetype plugin indent on    " 必须 加载vim自带和插件相应的语法和文件类型相关脚本
 " 忽视插件改变缩进,可以使用以下替代:
@@ -211,7 +217,7 @@ autocmd InsertLeave * if pumvisible() == 0|pclose|endif "离开插入模式后�
 inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
 "上下左右键的行为 会显示其他信息
 "inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
-inoremap <expr> <CR>     pumvisible() ? "\<C-n> \<C-y>" : "\<CR>"
+inoremap <expr> <CR>     pumvisible() ? "\<C-n>\<C-y> " : "\<CR>"
 inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
 inoremap <expr> <PageDown> pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<PageDown>"
 inoremap <expr> <PageUp>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
