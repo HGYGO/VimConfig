@@ -1,6 +1,42 @@
 
 let mapleader=","
 
+"Vundle #################### {{{
+"Special Setting
+
+set nocompatible              " 去除VI一致性,必须
+filetype off                  " 必须
+
+" 设置包括vundle和初始化相关的runtime path
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" 另一种选择, 指定一个vundle安装插件的路径
+"call vundle#begin('~/some/path/here')
+" 让vundle管理插件版本,必须
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'mru.vim'
+Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'jistr/vim-nerdtree-tabs'
+Plugin 'scrooloose/syntastic'
+"Plugin 'Valloric/ListToggle'
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
+Plugin 'majutsushi/tagbar'
+Plugin 'Lokaltog/vim-powerline'
+Plugin 'kien/rainbow_parentheses.vim'
+Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'bronson/vim-trailing-whitespace'
+Plugin 'rdnetto/YCM-Generator'
+Plugin '907th/vim-auto-save'
+
+call vundle#end()            " 必须
+filetype plugin indent on    " 必须 加载vim自带和插件相应的语法和文件类型相关脚本
+" 忽视插件改变缩进,可以使用以下替代:
+filetype plugin on
+"}}}
+
 "General Settings ##################### {{{
 set   autoindent
 set   autoread
@@ -167,38 +203,33 @@ let MRU_Max_Menu_Entries = 20
 nmap <leader>m :MRU<cr>
 "}}}
 "YouCompleteMe #####################{{{
-let g:ycm_global_ycm_extra_conf='~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
-"let g:ycm_global_ycm_extra_conf='~/.vim/.ycm_extra_conf.py'
+let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 " 自动补全配置
-set completeopt=longest,menu	"让Vim的补全菜单行为与一般IDE一致(参考VimTip1228)
-autocmd InsertLeave * if pumvisible() == 0|pclose|endif	"离开插入模式后自动关闭预览窗口
+set completeopt=longest,menu    "让Vim的补全菜单行为与一般IDE一致(参考VimTip1228)
+autocmd InsertLeave * if pumvisible() == 0|pclose|endif "离开插入模式后自动关闭预览窗口
 "回车即选中当前项
-inoremap <expr> <CR>       pumvisible() ? '<C-y>' : '<CR>'	
+inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
 "上下左右键的行为 会显示其他信息
-inoremap <expr> <Down>     pumvisible() ? '<C-n>' : '<Down>'
-inoremap <expr> <Up>       pumvisible() ? '<C-p>' : '<Up>'
-inoremap <expr> <PageDown> pumvisible() ? '<PageDown><C-p><C-n>' : '<PageDown>'
-inoremap <expr> <PageUp>   pumvisible() ? '<PageUp><C-p><C-n>' : '<PageUp>'
-
-let g:ycm_semantic_triggers = {}
-let g:ycm_semantic_triggers.c = ['->', '.', ' ', '(', '[', '&']
+"inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
+inoremap <expr> <CR>     pumvisible() ? "\<C-n> \<C-y>" : "\<CR>"
+inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
+inoremap <expr> <PageDown> pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<PageDown>"
+inoremap <expr> <PageUp>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
 
 "youcompleteme  默认tab  s-tab 和自动补全冲突
 "let g:ycm_key_list_select_completion=['<c-n>']
 let g:ycm_key_list_select_completion = ['<Down>']
 "let g:ycm_key_list_previous_completion=['<c-p>']
 let g:ycm_key_list_previous_completion = ['<Up>']
-"let g:ycm_confirm_extra_conf=1 "关闭加载.ycm_extra_conf.py提示
+let g:ycm_confirm_extra_conf=0 "关闭加载.ycm_extra_conf.py提示
 
-let g:ycm_collect_identifiers_from_tags_files=1	" 开启 YCM 基于标签引擎
-let g:ycm_min_num_of_chars_for_completion=2	" 从第2个键入字符就开始罗列匹配项
-let g:ycm_cache_omnifunc=0	" 禁止缓存匹配项,每次都重新生成匹配项
-let g:ycm_seed_identifiers_with_syntax=1	" 语法关键字补全
-
-"force recomile with syntastic
-nnoremap <F5> :YcmForceCompileAndDiagnostics<CR>	
-"nnoremap <leader>lo :lopen<CR>	'open locationlist
-"nnoremap <leader>lc :lclose<CR>	'close locationlist
+let g:ycm_collect_identifiers_from_tags_files=1 " 开启 YCM 基于标签引擎
+let g:ycm_min_num_of_chars_for_completion=2 " 从第2个键入字符就开始罗列匹配项
+let g:ycm_cache_omnifunc=0  " 禁止缓存匹配项,每次都重新生成匹配项
+let g:ycm_seed_identifiers_with_syntax=1    " 语法关键字补全
+nnoremap <F5> :YcmForceCompileAndDiagnostics<CR>    "force recomile with syntastic
+"nnoremap <leader>lo :lopen<CR> "open locationlist
+"nnoremap <leader>lc :lclose<CR>    "close locationlist
 inoremap <leader><leader> <C-x><C-o>
 "在注释输入中也能补全
 let g:ycm_complete_in_comments = 1
@@ -206,7 +237,8 @@ let g:ycm_complete_in_comments = 1
 let g:ycm_complete_in_strings = 1
 "注释和字符串中的文字也会被收入补全
 let g:ycm_collect_identifiers_from_comments_and_strings = 0
-"跳转到定义处
+let g:clang_user_options='|| exit 0'
+" 跳转到定义处
 nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 "}}}
 "listToggle ##################### {{{
@@ -245,14 +277,22 @@ hi IndentGuidesOdd  ctermbg=black
 hi IndentGuidesEven ctermbg=darkgrey
 "}}}
 "ultisnips ##################### {{{
-" If you want :UltiSnipsEdit to split your window.
- let g:UltiSnipsEditSplit="vertical"
+set conceallevel=2
+set concealcursor=vin
+let g:clang_snippets=1
+let g:clang_conceal_snippets=1
+" The single one that works with clang_complete
+let g:clang_snippets_engine='clang_complete'
 
-let g:UltiSnipsExpandTrigger = "<tab>"
-let g:UltiSnipsJumpForwardTrigger = "<tab>"
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
+
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 "定义存放代码片段的文件夹.vim/snippets下，使用自定义和默认的，将会的到全局，有冲突的会提示
-let g:UltiSnipsSnippetDirectories=["snippets", "bundle/ultisnips/UltiSnips"]
+let g:UltiSnipsSnippetDirectories=["bundle/vim-snippets/UltiSnips"]
 "}}}
 "vim-trailing-whitespace ##################### {{{
 map <leader><space> :FixWhitespace<cr>
@@ -260,41 +300,9 @@ map <leader><space> :FixWhitespace<cr>
 "rdnetto/YCM-Generator ##################### {{{
 ":YcmGenerateConfig or :CCGenerateConfig
 "}}}
-
-"******************************************
-"Special Setting
-
-set nocompatible              " 去除VI一致性,必须
-"filetype off                  " 必须
-
-" 设置包括vundle和初始化相关的runtime path
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" 另一种选择, 指定一个vundle安装插件的路径
-"call vundle#begin('~/some/path/here')
-" 让vundle管理插件版本,必须
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'Valloric/YouCompleteMe'
-"Plugin 'file:///~/.vim/bundle/YouCompleteMe'
-Plugin 'mru.vim'
-Plugin 'scrooloose/nerdtree'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'jistr/vim-nerdtree-tabs'
-Plugin 'scrooloose/syntastic'
-"Plugin 'Valloric/ListToggle'
-"Plugin 'SirVer/ultisnips'
-Plugin 'majutsushi/tagbar'
-Plugin 'Lokaltog/vim-powerline'
-Plugin 'kien/rainbow_parentheses.vim'
-Plugin 'nathanaelkane/vim-indent-guides'
-Plugin 'bronson/vim-trailing-whitespace'
-Plugin 'rdnetto/YCM-Generator'
-
-call vundle#end()            " 必须
-filetype plugin indent on    " 必须 加载vim自带和插件相应的语法和文件类型相关脚本
-" 忽视插件改变缩进,可以使用以下替代:
-filetype plugin on
-
+"autosave ######################### {{{
+let g:auto_save = 3
+"}}}
 vnoremap <space> :
 nnoremap <space> :
 
