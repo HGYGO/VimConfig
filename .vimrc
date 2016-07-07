@@ -29,7 +29,7 @@ Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'bronson/vim-trailing-whitespace'
 Plugin 'rdnetto/YCM-Generator'
-Plugin '907th/vim-auto-save'
+"Plugin '907th/vim-auto-save'
 
 call vundle#end()            " 必须
 filetype plugin indent on    " 必须 加载vim自带和插件相应的语法和文件类型相关脚本
