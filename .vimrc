@@ -30,9 +30,9 @@ Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'bronson/vim-trailing-whitespace'
 Plugin 'rdnetto/YCM-Generator'
 "Plugin '907th/vim-auto-save'
+"Plugin 'Raimondi/delimitMate'
 
 "colorscheme
-Plugin 'desert-warm-256'
 Plugin 'https://github.com/flazz/vim-colorschemes.git'
 
 "colorscheme 'desert-warm-256'
@@ -84,7 +84,7 @@ set   smartcase
 set   tabstop=4
 set   termencoding=utf-8
 "set   textwidth=80
-"set   whichwrap=h,l
+set   whichwrap=h,l
 "set   wildignore=*.bak,*.o,*.e,*~
 "set   wildmenu
 "set   wildmode=list:longest,full
@@ -92,7 +92,7 @@ set   termencoding=utf-8
 "set   autochdir
 "set   hid
 "
-"set   smarttab
+set   smarttab
 "set   wildmode=list:longest
 "set   backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 "set   directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
@@ -171,7 +171,7 @@ hi TabLineOther guifg=#777777
 
 
 "}}}
-"NERDTree ##################### {{{
+"Pugin NERDTree ##################### {{{
 "========= NERDTree.vim =========
 let g:NERDTreeWinPos="right"
 let g:NERDTreeWinSize=20
@@ -196,11 +196,11 @@ map  <F3>   :NERDTreeToggle<cr>
 "autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTreeToggle | endif
 
 "}}}
-"NERD_commenter.vim ##################### {{{
+"Plugin NERD_commenter.vim ##################### {{{
 let g:NERDShutUp=1
 let w:location=0
 "}}}
-"MRU.vim ##################### {{{
+"Plubin MRU.vim ##################### {{{
 "let MRU_Include_Files = '\.c$\|\.h$|\.cpp'
 let MRU_Window_Height = 15
 let MRU_Use_Current_Window = 0
@@ -208,7 +208,7 @@ let MRU_Auto_Close = 1
 let MRU_Max_Menu_Entries = 20
 nmap <leader>m :MRU<cr>
 "}}}
-"YouCompleteMe #####################{{{
+"Plubin YouCompleteMe #####################{{{
 let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 " 自动补全配置
 set completeopt=longest,menu    "让Vim的补全菜单行为与一般IDE一致(参考VimTip1228)
@@ -216,8 +216,8 @@ autocmd InsertLeave * if pumvisible() == 0|pclose|endif "离开插入模式后�
 "回车即选中当前项
 inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
 "上下左右键的行为 会显示其他信息
-"inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
-inoremap <expr> <CR>     pumvisible() ? "\<C-n>\<C-y> " : "\<CR>"
+inoremap <expr> <tab>     pumvisible() ? "\<C-n>" : "\<Down>"
+"inoremap <expr> <CR>     pumvisible() ? "\<C-n>\<C-y> " : "\<CR>"
 inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
 inoremap <expr> <PageDown> pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<PageDown>"
 inoremap <expr> <PageUp>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
@@ -230,7 +230,7 @@ let g:ycm_key_list_previous_completion = ['<Up>']
 let g:ycm_confirm_extra_conf=0 "关闭加载.ycm_extra_conf.py提示
 
 let g:ycm_collect_identifiers_from_tags_files=1 " 开启 YCM 基于标签引擎
-let g:ycm_min_num_of_chars_for_completion=2 " 从第2个键入字符就开始罗列匹配项
+"let g:ycm_min_num_of_chars_for_completion=2 " 从第2个键入字符就开始罗列匹配项
 let g:ycm_cache_omnifunc=0  " 禁止缓存匹配项,每次都重新生成匹配项
 let g:ycm_seed_identifiers_with_syntax=1    " 语法关键字补全
 nnoremap <F5> :YcmForceCompileAndDiagnostics<CR>    "force recomile with syntastic
@@ -243,11 +243,14 @@ let g:ycm_complete_in_comments = 1
 let g:ycm_complete_in_strings = 1
 "注释和字符串中的文字也会被收入补全
 let g:ycm_collect_identifiers_from_comments_and_strings = 0
-let g:clang_user_options='|| exit 0'
+"let g:clang_user_options='|| exit 0'
 " 跳转到定义处
 nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
+
+"let g:ycm_auto_trigger = 1
+"let g:ycm_key_invoke_completion = '<tab>'
 "}}}
-"listToggle ##################### {{{
+"Plubin listToggle ##################### {{{
 "let g:lt_location_list_toggle_map = '<leader>l'
 "let g:lt_quickfix_list_toggle_map = '<leader>q'
 "let g:lt_height = 10
@@ -267,7 +270,7 @@ nmap <leader>q/ :Grep <C-R>=expand("<cword>")<cr> % <cr>
 nnoremap Y y$
 
 "}}}
-"TagBar ##################### {{{
+"Plubin TagBar ##################### {{{
 " \tb 打开tagbar窗口
 nmap <F2> :TagbarToggle<CR>
 let g:tagbar_autofocus = 1
@@ -275,14 +278,14 @@ let g:tagbar_left = 1
 let g:tagbar_width = 20
 "autocmd VimEnter * nested :TagbarOpen
 "}}}
-"pvim-powerline ##################### {{{
+"Plubin pvim-powerline ##################### {{{
 let g:Powerline_symbols = 'unicode'
 "}}}
-"vim-indent-guides ##################### {{{
+"Plubin vim-indent-guides ##################### {{{
 hi IndentGuidesOdd  ctermbg=black
 hi IndentGuidesEven ctermbg=darkgrey
 "}}}
-"ultisnips ##################### {{{
+"Plubin ultisnips ##################### {{{
 set conceallevel=2
 set concealcursor=vin
 let g:clang_snippets=1
@@ -294,33 +297,84 @@ let g:clang_snippets_engine='clang_complete'
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
 
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsExpandTrigger="<c-tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 "定义存放代码片段的文件夹.vim/snippets下，使用自定义和默认的，将会的到全局，有冲突的会提示
 let g:UltiSnipsSnippetDirectories=["bundle/vim-snippets/UltiSnips"]
 "}}}
-"vim-trailing-whitespace ##################### {{{
+"Plubin vim-trailing-whitespace ##################### {{{
 map <leader><space> :FixWhitespace<cr>
 "}}}
 "rdnetto/YCM-Generator ##################### {{{
 ":YcmGenerateConfig or :CCGenerateConfig
 "}}}
-"autosave ######################### {{{
-let g:auto_save = 3
+"auto pair ######################## {{{
+
+" 按退格键时判断当前光标前一个字符，如果是左括号，则删除对应的右括号以及括号中间的内容
+function! RemovePairs()
+    let l:line = getline(".")
+    let l:previous_char = l:line[col(".")-1] " 取得当前光标前一个字符
+    if index(["(", "[", "{"], l:previous_char) != -1
+        let l:original_pos = getpos(".")
+        execute "normal %"
+        let l:new_pos = getpos(".")
+        " 如果没有匹配的右括号
+        if l:original_pos == l:new_pos
+            execute "normal! a\"
+            return
+        end
+        let l:line2 = getline(".")
+        if len(l:line2) == col(".")
+            " 如果右括号是当前行最后一个字符
+            execute "normal! v%xa"
+        else
+            " 如果右括号不是当前行最后一个字符
+            execute "normal! v%xi"
+        end
+    else
+        execute 'normal! a'
+    end
+endfunction
+
+"inoremap <backspace> <ESC>:call RemovePairs()<CR>a
+
+" 输入一个字符时，如果下一个字符也是括号，则删除它，避免出现重复字符
+function! RemoveNextDoubleChar(char)
+	let l:line = getline(".")
+	let l:next_char = l:line[col(".")] " 取得当前光标后一个字符
+
+	if a:char == l:next_char
+		execute "normal! l"
+	else
+		execute "normal! i" . a:char . ""
+	end
+endfunction
+inoremap ) <ESC>:call RemoveNextDoubleChar(')')<CR>a
+inoremap ] <ESC>:call RemoveNextDoubleChar(']')<CR>a
+inoremap } <ESC>:call RemoveNextDoubleChar('}')<CR>a
+
+inoremap ( ()<left>
+inoremap [ []<left>
+inoremap { {}<left><CR><ESC>ko
+inoremap < <><left>
+inoremap << <<
 "}}}
 vnoremap <space> :
 nnoremap <space> :
+
+nnoremap <leader>ss :source ~/.vimrc<CR>
+nnoremap <leader>ee :tabnew ~/.vimrc<CR>
 
 " Switching between buffers.
 nmap <S-h> <C-W>h
 nmap <S-l> <C-W>l
 "nnoremap <C-k> <C-W>k
 "nnoremap <C-j> <C-W>j
-"inoremap <C-h> <Esc><C-W>h
+inoremap <C-h> <Esc><C-W>h
+inoremap <C-l> <Esc><C-W>l
 "inoremap <C-j> <Esc><C-W>j
 "inoremap <C-k> <Esc><C-W>k
-"inoremap <C-l> <Esc><C-W>l
 
 nmap <C-h> :tabp<cr>
 "imap <C-left> <ESC>:tabp<cr>
@@ -330,6 +384,10 @@ nmap <C-l> :tabn<cr>
 "Remember the last position
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
-
-
+autocmd! bufwritepost .vimrc source ~/.vimrc
+"autocmd VimEnter * nested :call tagbar#autoopen(1)
+"automatically quit Tagbar and NERD_tree
+"autocmd WinEnter :call NoExcitingBuffersLeft()<CR>
+"autocmd BufLeave * :w<CR>
+autocmd BufLeave,InsertLeave * silent! wall
 
