@@ -222,6 +222,8 @@ inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
 inoremap <expr> <PageDown> pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<PageDown>"
 inoremap <expr> <PageUp>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
 
+"inoremap <expr> <CR>		pumvisible() ? "\<C-Space>" : "\<CR>"
+
 "youcompleteme  默认tab  s-tab 和自动补全冲突
 "let g:ycm_key_list_select_completion=['<c-n>']
 let g:ycm_key_list_select_completion = ['<Down>']
@@ -248,7 +250,7 @@ let g:ycm_collect_identifiers_from_comments_and_strings = 0
 nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 "let g:ycm_auto_trigger = 1
-"let g:ycm_key_invoke_completion = '<tab>'
+"let g:ycm_key_invoke_completion = '<C-q>'
 "}}}
 "Plubin listToggle ##################### {{{
 "let g:lt_location_list_toggle_map = '<leader>l'
@@ -321,7 +323,7 @@ function! RemovePairs()
         let l:new_pos = getpos(".")
         " 如果没有匹配的右括号
         if l:original_pos == l:new_pos
-            execute "normal! a\"
+            execute "normal! xi"
             return
         end
         let l:line2 = getline(".")
@@ -333,21 +335,25 @@ function! RemovePairs()
             execute "normal! v%xi"
         end
     else
-        execute 'normal! a'
+        execute 'normal! xi'
     end
 endfunction
 
-"inoremap <backspace> <ESC>:call RemovePairs()<CR>a
+inoremap <backspace> <ESC>:call RemovePairs()<CR>a
 
 " 输入一个字符时，如果下一个字符也是括号，则删除它，避免出现重复字符
 function! RemoveNextDoubleChar(char)
 	let l:line = getline(".")
 	let l:next_char = l:line[col(".")] " 取得当前光标后一个字符
 
+	"if l:next_char ==""
+		"return
+	"end
+
 	if a:char == l:next_char
 		execute "normal! l"
 	else
-		execute "normal! i" . a:char . ""
+		execute "normal! a" . a:char . ""
 	end
 endfunction
 inoremap ) <ESC>:call RemoveNextDoubleChar(')')<CR>a
@@ -368,17 +374,19 @@ nnoremap <leader>ee :tabnew ~/.vimrc<CR>
 
 " Switching between buffers.
 nmap <S-h> <C-W>h
+imap <S-h> <Esc><C-W>h
 nmap <S-l> <C-W>l
+imap <S-l> <Esc><C-W>l
 "nnoremap <C-k> <C-W>k
 "nnoremap <C-j> <C-W>j
-inoremap <C-h> <Esc><C-W>h
-inoremap <C-l> <Esc><C-W>l
 "inoremap <C-j> <Esc><C-W>j
 "inoremap <C-k> <Esc><C-W>k
 
 nmap <C-h> :tabp<cr>
+imap <C-h> <ESC>:tabp<cr>
 "imap <C-left> <ESC>:tabp<cr>
 nmap <C-l> :tabn<cr>
+imap <C-l> <ESC>:tabn<cr>
 "imap <C-right> <ESC>:tabn<cr>
 
 "Remember the last position
