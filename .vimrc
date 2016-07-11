@@ -216,7 +216,7 @@ autocmd InsertLeave * if pumvisible() == 0|pclose|endif "离开插入模式后�
 "回车即选中当前项
 "inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
 "上下左右键的行为 会显示其他信息
-inoremap <expr> <tab>     pumvisible() ? "\<C-n>" : "\<Down>"
+inoremap <expr> <tab>     pumvisible() ? "\<C-n>" : "\<tab>"
 "inoremap <expr> <CR>     pumvisible() ? "\<C-n>\<C-y> " : "\<CR>"
 inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
 inoremap <expr> <PageDown> pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<PageDown>"
@@ -342,7 +342,6 @@ function! RemovePairs()
 			execute 'normal! xi'
 		end
     end
-	"gggg5
 endfunction
 
 inoremap <backspace> <ESC>:call RemovePairs()<CR>a
@@ -351,10 +350,6 @@ inoremap <backspace> <ESC>:call RemovePairs()<CR>a
 function! RemoveNextDoubleChar(char)
 	let l:line = getline(".")
 	let l:next_char = l:line[col(".")] " 取得当前光标后一个字符
-
-	"if l:next_char ==""
-		"return
-	"end
 
 	if a:char == l:next_char
 		execute "normal! l"
@@ -369,8 +364,8 @@ inoremap } <ESC>:call RemoveNextDoubleChar('}')<CR>a
 inoremap ( ()<left>
 inoremap [ []<left>
 inoremap { {}<left><CR><ESC>ko
-inoremap < <><left>
-inoremap << <<
+"inoremap < <><left>
+"inoremap << <<
 "}}}
 vnoremap <space> :
 nnoremap <space> :
@@ -380,9 +375,9 @@ nnoremap <leader>ee :tabnew ~/.vimrc<CR>
 
 " Switching between buffers.
 nmap <S-h> <C-W>h
-imap <S-h> <Esc><C-W>h
+"imap <S-h> <Esc><C-W>h
 nmap <S-l> <C-W>l
-imap <S-l> <Esc><C-W>l
+"imap <S-l> <Esc><C-W>l
 "nnoremap <C-k> <C-W>k
 "nnoremap <C-j> <C-W>j
 "inoremap <C-j> <Esc><C-W>j
