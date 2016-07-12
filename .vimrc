@@ -24,7 +24,9 @@ Plugin 'scrooloose/syntastic'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'majutsushi/tagbar'
-Plugin 'Lokaltog/vim-powerline'
+"Plugin 'Lokaltog/vim-powerline'
+"Plugin 'vim-airline/vim-airline'
+"Plugin 'vim-airline/vim-airline-themes'
 Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'bronson/vim-trailing-whitespace'
@@ -33,15 +35,15 @@ Plugin 'rdnetto/YCM-Generator'
 "Plugin 'Raimondi/delimitMate'
 
 "colorscheme
-Plugin 'https://github.com/flazz/vim-colorschemes.git'
-
-"colorscheme 'desert-warm-256'
+Plugin 'flazz/vim-colorschemes'
 
 call vundle#end()            " 必须
 filetype plugin indent on    " 必须 加载vim自带和插件相应的语法和文件类型相关脚本
 " 忽视插件改变缩进,可以使用以下替代:
 filetype plugin on
 "}}}
+
+"colorscheme gruvbox
 
 "General Settings ##################### {{{
 set   autoindent
@@ -169,7 +171,11 @@ hi TabLineOther term=none
 hi TabLineOther ctermfg=black ctermbg=black
 hi TabLineOther guifg=#777777
 
-
+"}}}
+"Plugin vim-airline ################## {{{
+"let g:airline#extensions#tabline#enabled = 1
+"let g:airline#extensions#tabline#left_sep = ' '
+"let g:airline#extensions#tabline#left_alt_sep = '|'
 "}}}
 "Pugin NERDTree ##################### {{{
 "========= NERDTree.vim =========
@@ -200,7 +206,7 @@ map  <F3>   :NERDTreeToggle<cr>
 let g:NERDShutUp=1
 let w:location=0
 "}}}
-"Plubin MRU.vim ##################### {{{
+"Plugin MRU.vim ##################### {{{
 "let MRU_Include_Files = '\.c$\|\.h$|\.cpp'
 let MRU_Window_Height = 15
 let MRU_Use_Current_Window = 0
@@ -232,7 +238,7 @@ let g:ycm_key_list_previous_completion = ['<Up>']
 let g:ycm_confirm_extra_conf=0 "关闭加载.ycm_extra_conf.py提示
 
 let g:ycm_collect_identifiers_from_tags_files=1 " 开启 YCM 基于标签引擎
-"let g:ycm_min_num_of_chars_for_completion=2 " 从第2个键入字符就开始罗列匹配项
+let g:ycm_min_num_of_chars_for_completion=2 " 从第2个键入字符就开始罗列匹配项
 let g:ycm_cache_omnifunc=0  " 禁止缓存匹配项,每次都重新生成匹配项
 let g:ycm_seed_identifiers_with_syntax=1    " 语法关键字补全
 nnoremap <F5> :YcmForceCompileAndDiagnostics<CR>    "force recomile with syntastic
@@ -363,9 +369,10 @@ inoremap } <ESC>:call RemoveNextDoubleChar('}')<CR>a
 
 inoremap ( ()<left>
 inoremap [ []<left>
-inoremap { {}<left><CR><ESC>ko
-"inoremap < <><left>
-"inoremap << <<
+inoremap { {}<left><CR><ESC>%a
+
+"au BufRead,BufNewFile *.cpp call FileTypePair("c")
+
 "}}}
 vnoremap <space> :
 nnoremap <space> :
@@ -375,9 +382,7 @@ nnoremap <leader>ee :tabnew ~/.vimrc<CR>
 
 " Switching between buffers.
 nmap <S-h> <C-W>h
-"imap <S-h> <Esc><C-W>h
 nmap <S-l> <C-W>l
-"imap <S-l> <Esc><C-W>l
 "nnoremap <C-k> <C-W>k
 "nnoremap <C-j> <C-W>j
 "inoremap <C-j> <Esc><C-W>j
