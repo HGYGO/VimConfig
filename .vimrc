@@ -1,64 +1,8 @@
 
 let mapleader=","
 
-"General Settings ##################### {{{
-set   autoindent
-set   autoread
-set   autowrite
-set   background=dark
-set   backspace=indent,eol,start "allow backspace over everything in insert mode
-set   nobackup
-set   cindent
-set   cinoptions=:0
-set   cursorline  "show cursor line
-set   completeopt=longest,menuone
-set   noexpandtab
-set   fileencodings=utf-8,gb2312,gbk,gb18030,ucs-bom,utf-8,prc
-set   fileformat=unix
-set   foldenable
-set   foldmethod=marker
-set   guioptions-=T
-set   guioptions-=m
-set   guioptions-=r
-set   guioptions-=l
-set   helpheight=10
-set   helplang=cn
-set   hidden
-set   history=100
-set   hlsearch
+filetype plugin on
 
-set   ignorecase
-set   incsearch "do incremental search
-set   laststatus=2
-set   mouse=a "enable mouse
-set   number  "show line number
-set   pumheight=10
-set   ruler  "show the cursor position all the time
-set   scrolloff=5
-set   shiftwidth=4
-set   showcmd
-set   smartindent
-set   smartcase
-set   tabstop=4
-set   termencoding=utf-8
-"set   textwidth=80
-"set   whichwrap=h,l
-"set   wildignore=*.bak,*.o,*.e,*~
-"set   wildmenu
-"set   wildmode=list:longest,full
-"set   nowrap
-"set   autochdir
-"set   hid
-"
-"set   smarttab
-"set   wildmode=list:longest
-"set   backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
-"set   directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
-""set   guitablabel=%t
-
-syntax on
-
-"}}}
 "TabLine ##################### {{{
 set showtabline=2
 set tabline=%!MyTabLine()
@@ -140,10 +84,10 @@ let g:NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.sv
 
 let g:nerdtree_tabs_focus_on_files=1
 let g:nerdtree_tabs_open_on_console_startup=1
-"let NERDTreeChDirMode=0
+let NERDTreeChDirMode=1
 "let NERDTreeQuitOnOpen=1
 "let NERDTreeShowHidden=1
-"let NERDTreeKeepTreeInNewTab=1
+let NERDTreeKeepTreeInNewTab=1
 nmap  <leader>f :NERDTreeFind<cr>
 "*************NERD_tree****************
 map  <F3>   :NERDTreeToggle<cr>
@@ -153,6 +97,7 @@ map  <F3>   :NERDTreeToggle<cr>
 "autocmd StdinReadPre * let s:std_in=1
 "autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTreeToggle | endif
 
+let g:nerdtree_tabs_autoclose = 1
 "}}}
 "NERD_commenter.vim ##################### {{{
 let g:NERDShutUp=1
@@ -232,9 +177,10 @@ nnoremap Y y$
 "TagBar ##################### {{{
 " \tb 打开tagbar窗口
 nmap <F2> :TagbarToggle<CR>
-let g:tagbar_autofocus = 1
+let g:tagbar_autofocus = 0
 let g:tagbar_left = 1
-let g:tagbar_width = 20
+let g:tagbar_width = 25
+let g:tagbar_sort = 0
 "autocmd VimEnter * nested :TagbarOpen
 "}}}
 "pvim-powerline ##################### {{{
@@ -260,12 +206,84 @@ map <leader><space> :FixWhitespace<cr>
 "rdnetto/YCM-Generator ##################### {{{
 ":YcmGenerateConfig or :CCGenerateConfig
 "}}}
+"
+" SET GNU_GLOBAL {{{1
 
-"******************************************
-"Special Setting
+nmap <leader>sa :cs add cscope.out<cr>
+nmap <leader>ss :cs find s <C-R>=expand("<cword>")<cr><cr>
+nmap <leader>sg :cs find g <C-R>=expand("<cword>")<cr><cr>
+nmap <leader>sc :cs find c <C-R>=expand("<cword>")<cr><cr>
+nmap <leader>st :cs find t <C-R>=expand("<cword>")<cr><cr>
+nmap <leader>se :cs find e <C-R>=expand("<cword>")<cr><cr>
+nmap <leader>sf :cs find f <C-R>=expand("<cfile>")<cr><cr>
+nmap <leader>si :cs find i <C-R>=expand("<cfile>")<cr><cr>
+nmap <leader>sii :cs find i %<cr>
+"nmap <leader>sd :cs find d <C-R>=expand("<cword>")<cr><cr>
 
+"To enable C+S, Add "stty -ixon" to ~/.bashrc
+nmap <C-s> ,ss
+nmap <C-g> ,sg
+nmap <C-c> ,sc
+"nmap <C-t> ,st
+
+cmap ,ss cs find s
+cmap ,sg cs find g
+cmap ,sc cs find c
+cmap ,st cs find t
+cmap ,se cs find e
+cmap ,sf cs find f
+cmap ,si cs find i
+"cmap ,sd cs find d
+
+" settings of cscope.
+" I use GNU global instead cscope because global is faster.
+"set cscopetag
+"set cscopeprg=/usr/local/bin/gtags-cscope
+"set csprg=/usr/local/bin/gtags-cscope
+"set cscopequickfix=c-,d-,e-,f-,g0,i-,s-,t-
+set cscopequickfix=t-
+"nmap <silent> <leader>j <ESC>:cstag <c-r><c-w><CR>
+"nmap <silent> <leader>g <ESC>:lcs f c <c-r><c-w><cr>:lw<cr>
+"nmap <silent> <leader>s <ESC>:lcs f s <c-r><c-w><cr>:lw<cr>
+"command! -nargs=+ -complete=dir FindFiles :call FindFiles(<f-args>)
+let GtagsCscope_Auto_Load=1
+let GtagsCscope_Keep_Alive=1
+let GtagsCscope_Absolute_Path = 1
+"au VimEnter * call VimEnterCallback()
+"au VimEnter * call AddGtags()
+"call AddGtags()
+"au BufAdd *.c,*.cpp,*.h call FindGtags(expand('<afile>'))
+
+"au BufWritePost *.c,*.cpp,*.h call UpdateGtags(expand('<afile>'))
+"map <silent><F12> :call UpdateGtags(expand('<afile>'))
+
+function! UpdateGtags(f)
+	let dir = fnamemodify(a:f, ':p:h')
+	exe 'silent !cd ' . dir . ' && gtags --single-update % &> /dev/null &'
+endfunction
+
+
+"}}}
+
+"gitsessions.vim ################# {{{
+
+"let g:gitsessions_disable_auto_load = 1
+
+function! MyGss()
+	execute 'tabdo TagbarClose'
+	execute 'NERDTreeTabsClose'
+	execute 'GitSessionSave'
+endfunction
+
+map <leader>gss :tabdo TagbarClose<CR>:NERDTreeTabsClose<CR>:GitSessionSave<CR>
+map <leader>gsl :GitSessionLoad<cr>
+map <leader>gsd :GitSessionDelete<cr>
+
+"}}}
+
+"Add plugins ############ {{{
 set nocompatible              " 去除VI一致性,必须
-"filetype off                  " 必须
+filetype off                  " 必须
 
 " 设置包括vundle和初始化相关的runtime path
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -274,8 +292,9 @@ call vundle#begin()
 "call vundle#begin('~/some/path/here')
 " 让vundle管理插件版本,必须
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'Valloric/YouCompleteMe'
+"Plugin 'Valloric/YouCompleteMe'
 "Plugin 'file:///~/.vim/bundle/YouCompleteMe'
+"Plugin 'rdnetto/YCM-Generator'
 Plugin 'mru.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/nerdcommenter'
@@ -288,12 +307,20 @@ Plugin 'Lokaltog/vim-powerline'
 Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'bronson/vim-trailing-whitespace'
-Plugin 'rdnetto/YCM-Generator'
+"Plugin 'xolox/vim-misc'
+"Plugin 'xolox/vim-session'
+Plugin 'wting/gitsessions.vim'
+"Plugin 'ToruIwashita/git-switcher.vim'
+Plugin 'vim-scripts/a.vim'
 
 call vundle#end()            " 必须
 filetype plugin indent on    " 必须 加载vim自带和插件相应的语法和文件类型相关脚本
 " 忽视插件改变缩进,可以使用以下替代:
 filetype plugin on
+"}}}
+
+"******************************************
+"Special Setting
 
 vnoremap <space> :
 nnoremap <space> :
@@ -317,5 +344,72 @@ nmap <C-l> :tabn<cr>
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
 
+nmap <leader>sc :source ~/.vimrc<cr>
+nmap <leader>ee :tabnew ~/.vimrc<cr>
 
+"General Settings ##################### {{{
+set   autoindent
+set   autoread
+set   autowrite
+set   background=dark
+set   backspace=indent,eol,start "allow backspace over everything in insert mode
+set   nobackup
+set   cindent
+set   cinoptions=:0
+set   cursorline  "show cursor line
+set   completeopt=longest,menuone
+set   noexpandtab
+set   fileencodings=utf-8,gb2312,gbk,gb18030,ucs-bom,utf-8,prc
+set   fileformat=unix
+set   foldenable
+set   foldmethod=marker
+set   guioptions-=T
+set   guioptions-=m
+set   guioptions-=r
+set   guioptions-=l
+set   helpheight=10
+set   helplang=cn
+set   hidden
+set   history=100
+set   hlsearch
 
+set   ignorecase
+set   incsearch "do incremental search
+set   laststatus=2
+set   mouse=a "enable mouse
+set   number  "show line number
+set   pumheight=10
+set   ruler  "show the cursor position all the time
+set   scrolloff=5
+set   shiftwidth=4
+set   showcmd
+set   smartindent
+set   smartcase
+set   tabstop=4
+set   termencoding=utf-8
+"set   textwidth=80
+set   ww=h,l
+"set   wildignore=*.bak,*.o,*.e,*~
+"set   wildmenu
+"set   wildmode=list:longest,full
+"set   nowrap
+set   autochdir
+"set   hid
+"
+"set   smarttab
+"set   wildmode=list:longest
+"set   backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+"set   directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+""set   guitablabel=%t
+
+syntax on
+
+"}}}
+
+"au VimLeave * call MyGss()
+"au VimEnter * GswLoad
+augroup SessionUpdate
+	autocmd VimLeave * :tabdo TagbarClose
+	autocmd VimLeave * :NERDTreeTabsClose
+	autocmd VimLeave * :call g:GitSessionUpdate()
+augroup END
