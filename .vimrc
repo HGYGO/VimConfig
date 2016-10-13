@@ -249,6 +249,7 @@ set cscopequickfix=t-
 let GtagsCscope_Auto_Load=1
 let GtagsCscope_Keep_Alive=1
 let GtagsCscope_Absolute_Path = 1
+let g:Gtags_Auto_Update = 1
 "au VimEnter * call VimEnterCallback()
 "au VimEnter * call AddGtags()
 "call AddGtags()
@@ -269,10 +270,36 @@ endfunction
 
 "let g:gitsessions_disable_auto_load = 1
 
-function! MyGss()
+function! s:SaveSession()
 	execute 'tabdo TagbarClose'
 	execute 'NERDTreeTabsClose'
 	execute 'GitSessionSave'
+endfunction
+
+function! s:RemoveSession()
+	let s:ssname = v:this_session
+	let s:ssname .= ".open"
+	echo "move" v:this_session "to" s:ssname
+	call rename(v:this_session, s:ssname)
+endfunction
+
+function! s:RecoverSession()
+	let s:ssname = v:this_session
+	let s:ssname .= ".open"
+	echo "move" s:ssname "to" v:this_session
+	call rename(s:ssname, v:this_session)
+	"execute 'rename' s:ssname v:this_session
+endfunction
+
+function! LeaveSession()
+	if !exists(v:this_session)
+		return
+	endif
+	call RemoveSession()
+	execute 'tabdo TagbarClose'
+	execute 'NERDTreeTabsClose'
+	"need to comment this line from gitsession.vim
+	call g:GitSessionUpdate()
 endfunction
 
 map <leader>gss :tabdo TagbarClose<CR>:NERDTreeTabsClose<CR>:GitSessionSave<CR>
@@ -406,10 +433,9 @@ syntax on
 
 "}}}
 
-"au VimLeave * call MyGss()
-"au VimEnter * GswLoad
-augroup SessionUpdate
-	autocmd VimLeave * :tabdo TagbarClose
-	autocmd VimLeave * :NERDTreeTabsClose
-	autocmd VimLeave * :call g:GitSessionUpdate()
-augroup END
+
+autocmd SessionLoadPost * :call s:RemoveSession()
+autocmd VimLeavePre * :call s:RecoverSession()
+autocmd VimLeave * :call s:LeaveSession()
+
+
