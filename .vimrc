@@ -224,6 +224,9 @@ nmap <leader>sii :cs find i %<cr>
 nmap <C-s> ,ss
 nmap <C-g> ,sg
 nmap <C-c> ,sc
+"nmap <C-s> :silent call setqflist([])<cr>,ss:NERDTreeClose<cr>:copen 15<cr><c-w>k<c-o><c-w>j
+"nmap <C-g> :silent call setqflist([])<cr>,sg:NERDTreeClose<cr>:copen 15<cr><c-w>k<c-o><c-w>j
+"nmap <C-c> :silent call setqflist([])<cr>,sc:NERDTreeClose<cr>:copen 15<cr><c-w>k<c-o><c-w>j
 "nmap <C-t> ,st
 
 cmap ,ss cs find s
@@ -235,21 +238,29 @@ cmap ,sf cs find f
 cmap ,si cs find i
 "cmap ,sd cs find d
 
+"Close Quickwindow
+nmap <leader>ccl :ccl<CR>
+nmap <F4> :ccl<CR>
+
+
 " settings of cscope.
 " I use GNU global instead cscope because global is faster.
 "set cscopetag
 "set cscopeprg=/usr/local/bin/gtags-cscope
 "set csprg=/usr/local/bin/gtags-cscope
-"set cscopequickfix=c-,d-,e-,f-,g0,i-,s-,t-
+"set cscopequickfix=c-,d-,e-,f-,g-,i-,s-,t-
 set cscopequickfix=t-
 "nmap <silent> <leader>j <ESC>:cstag <c-r><c-w><CR>
 "nmap <silent> <leader>g <ESC>:lcs f c <c-r><c-w><cr>:lw<cr>
 "nmap <silent> <leader>s <ESC>:lcs f s <c-r><c-w><cr>:lw<cr>
 "command! -nargs=+ -complete=dir FindFiles :call FindFiles(<f-args>)
-let GtagsCscope_Auto_Load=1
-let GtagsCscope_Keep_Alive=1
-let GtagsCscope_Absolute_Path = 1
-let g:Gtags_Auto_Update = 1
+let g:GtagsCscope_Auto_Load=1
+let g:GtagsCscope_Keep_Alive=1
+let g:GtagsCscope_Absolute_Path=1
+"let g:Gtags_Auto_Update=1
+"let g:Gtags_OpenQuickfixWindow=1
+let g:Gtags_No_Auto_Jump=1
+let g:Gtags_Close_When_Single=0
 "au VimEnter * call VimEnterCallback()
 "au VimEnter * call AddGtags()
 "call AddGtags()
@@ -269,6 +280,7 @@ endfunction
 "gitsessions.vim ################# {{{
 
 "let g:gitsessions_disable_auto_load = 1
+let g:gitsessions_use_cache = 0
 
 function! s:SaveSession()
 	execute 'tabdo TagbarClose'
@@ -276,26 +288,36 @@ function! s:SaveSession()
 	execute 'GitSessionSave'
 endfunction
 
-function! s:RemoveSession()
+function! RemoveSession()
+	if v:this_session == ''
+		echo "No need to remove session file"
+		return
+	endif
 	let s:ssname = v:this_session
 	let s:ssname .= ".open"
-	echo "move" v:this_session "to" s:ssname
-	call rename(v:this_session, s:ssname)
+	echom "move" v:this_session "to" s:ssname
+	silent call rename(v:this_session, s:ssname)
 endfunction
 
-function! s:RecoverSession()
+function! RecoverSession()
+	if v:this_session == ''
+		echo "No session opened"
+		return
+	endif
 	let s:ssname = v:this_session
 	let s:ssname .= ".open"
 	echo "move" s:ssname "to" v:this_session
 	call rename(s:ssname, v:this_session)
+	execute 'sync'
 	"execute 'rename' s:ssname v:this_session
 endfunction
 
 function! LeaveSession()
-	if !exists(v:this_session)
+	if v:this_session == ''
+		echo "No session opened"
 		return
 	endif
-	call RemoveSession()
+	"call RecoverSession()
 	execute 'tabdo TagbarClose'
 	execute 'NERDTreeTabsClose'
 	"need to comment this line from gitsession.vim
@@ -305,6 +327,10 @@ endfunction
 map <leader>gss :tabdo TagbarClose<CR>:NERDTreeTabsClose<CR>:GitSessionSave<CR>
 map <leader>gsl :GitSessionLoad<cr>
 map <leader>gsd :GitSessionDelete<cr>
+
+autocmd! SessionLoadPost * :call RemoveSession()
+autocmd! VimLeavePre * :call RecoverSession()
+autocmd VimLeave * :call LeaveSession()
 
 "}}}
 
@@ -371,7 +397,7 @@ nmap <C-l> :tabn<cr>
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
 
-nmap <leader>sc :source ~/.vimrc<cr>
+nmap <leader>ec :source ~/.vimrc<cr>
 nmap <leader>ee :tabnew ~/.vimrc<cr>
 
 "General Settings ##################### {{{
@@ -434,8 +460,5 @@ syntax on
 "}}}
 
 
-autocmd SessionLoadPost * :call s:RemoveSession()
-autocmd VimLeavePre * :call s:RecoverSession()
-autocmd VimLeave * :call s:LeaveSession()
 
 
